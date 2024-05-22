@@ -5,13 +5,24 @@ import (
 	"runtime/debug"
 )
 
+var version = "unknown"
+
 func main() {
-	fmt.Println("hello")
-	info, ok := debug.ReadBuildInfo()
-	//info.Main.Version = "v0.0.1"
-	if ok {
-		fmt.Println(info)
-		fmt.Println("Module:", info.Main.Path)
-		fmt.Println("Version:", info.Main.Version)
+	// Print the version set during build time
+	fmt.Println("Version:", version)
+
+	// Get build info
+	buildInfo, ok := debug.ReadBuildInfo()
+	if !ok {
+		fmt.Println("Failed to read build info")
+		return
+	}
+
+	fmt.Println("Version2:", buildInfo.Main.Version)
+
+	// Print build settings
+	fmt.Println("Build Info:")
+	for _, setting := range buildInfo.Settings {
+		fmt.Printf("%s: %s\n", setting.Key, setting.Value)
 	}
 }
